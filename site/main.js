@@ -8,7 +8,8 @@ var canvas = document.querySelector('canvas');
 var context = canvas.getContext('2d');
 
 var fireworks = [];
-var gravity = new vec2(0, 0.2);
+var colors = ['253,0,0', '0,113,253', '1,149,1', '226,42,220'];
+var gravity = new vec2(0, 0.1);
 
 
 
@@ -19,14 +20,14 @@ var gravity = new vec2(0, 0.2);
 var triggers = {};
 var triggerInfo = [
 	// id, velocity, lifespan
-	['#trigger-hat-left', {x: -10, y: -6}, 80],
-	['#trigger-hat-right', {x: 10, y: -6}, 80],
-	['#trigger-top-left', {x: -10, y: -6}, 130],
-	['#trigger-top-right', {x: 10, y: -6}, 130],
-	['#trigger-middle-left', {x: -10, y: -2}, 200],
-	['#trigger-middle-right', {x: 10, y: -2}, 200],
-	['#trigger-bottom-left', {x: -10, y: 2}, 130],
-	['#trigger-bottom-right', {x: 10, y: 2}, 130]
+	['#trigger-hat-left', {x: -5, y: -3}, 160],
+	['#trigger-hat-right', {x: 5, y: -3}, 160],
+	['#trigger-top-left', {x: -5, y: -4}, 220],
+	['#trigger-top-right', {x: 5, y: -4}, 220],
+	['#trigger-middle-left', {x: -8, y: -2}, 250],
+	['#trigger-middle-right', {x: 8, y: -2}, 250],
+	['#trigger-bottom-left', {x: -5, y: 1}, 220],
+	['#trigger-bottom-right', {x: 5, y: 1}, 220]
 ];
 
 function Trigger(id, velocity, lifespan) {
@@ -50,13 +51,17 @@ for(var i = 0; i < triggerInfo.length; i++) {
 // -------------
 
 function triggerFireworks() {
+	// The commented below will get you a random color
+	// var color = (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256));
+	var color = colors[Math.floor(Math.random() * colors.length)];;
+
 	for(var i = 0; i < arguments.length; i++) {
 		var y = triggers[triggerInfo[arguments[i]]].top;
 		var x = triggers[triggerInfo[arguments[i]]].left;
 		var velocity = triggers[triggerInfo[arguments[i]]].velocity;
 		var lifespan = triggers[triggerInfo[arguments[i]]].lifespan;
 
-		fireworks.push(new Firework(x, y, velocity, lifespan, true)); // -5 is half the radius of the particle
+		fireworks.push(new Firework(x, y, velocity, lifespan, color, true)); // -5 is half the radius of the particle
 	}
 }
 
@@ -85,10 +90,10 @@ document.addEventListener("keyup", onKeyDown);
 // Particle constructor
 // --------------------
 
-function Particle(x, y, velocity, firework) {
+function Particle(x, y, velocity, color, firework) {
 	this.position = new vec2(x, y);
 	this.lifespan = 100;
-	this.radius = (firework) ? 10 : 5;
+	this.radius = (firework) ? 3 : 1;
 	if(firework) {
 		var temp = new vec2();
 		this.velocity = new vec2();
@@ -122,10 +127,10 @@ function Particle(x, y, velocity, firework) {
 
 	this.render = function() {
 		context.beginPath();
-		if(!firework) {
-			context.strokeStyle = 'rgba(140,140,140, ' + this.lifespan / 100 + ')';
+		if(!color) {
+			context.strokeStyle = 'rgba(' + color + ', 1)';
 		} else {
-			context.strokeStyle = 'rgba(0,0,0, 1)';
+			context.strokeStyle = 'rgba(' + color + ', ' + this.lifespan / 100 + ')';
 		}
 		context.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, false);
 		context.stroke();
@@ -138,8 +143,8 @@ function Particle(x, y, velocity, firework) {
 // Firework constructor
 // --------------------
 
-function Firework(x, y, velocity, lifespan, firework) {
-	this.firework = new Particle(x, y, velocity, firework);
+function Firework(x, y, velocity, lifespan, color, firework) {
+	this.firework = new Particle(x, y, velocity, color, firework);
 	this.exploded = false;
 	this.particles = [];
 	this.lifespan = lifespan;
@@ -167,8 +172,8 @@ function Firework(x, y, velocity, lifespan, firework) {
 	};
 
 	this.explode = function() {
-		for(var i = 10; i >= 0; i--) {
-			var particle = new Particle(this.firework.position.x, this.firework.position.y);
+		for(var i = 20; i >= 0; i--) {
+			var particle = new Particle(this.firework.position.x, this.firework.position.y, null, color, false);
 
 			this.particles.push(particle);
 		}
@@ -255,6 +260,6 @@ window.addEventListener('resize', function() {
 	// Update the trigger position
 	triggers = {};
 	for(var i = 0; i < triggerInfo.length; i++) {
-		triggers[triggerInfo[i]] = new Trigger(triggerInfo[i][0], triggerInfo[i][1]);
+		triggers[triggerInfo[i]] = new Trigger(triggerInfo[i][0], triggerInfo[i][1], triggerInfo[i][2]);
 	}
 });

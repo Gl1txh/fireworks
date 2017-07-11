@@ -70,3 +70,15 @@ svg {
 .instructions span {
   color: #555656;
 }
+
+#waves path {
+  animation-name: waves;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes waves {
+  0% {transform: translateX(0);}
+  100% {transform: translateX(-50%);}
+}
