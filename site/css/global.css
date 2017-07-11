@@ -82,3 +82,36 @@ svg {
   0% {transform: translateX(0);}
   100% {transform: translateX(-50%);}
 }
+
+#boat-1,
+#boat-2 {
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform-origin: 50% 50%;
+}
+
+#boat-1 {
+  animation-name: float;
+  animation-duration: 7s;
+}
+
+#boat-2 {
+  animation-name: floatReverse;
+  animation-duration: 6s;
+}
+
+@keyframes float {
+  0% {transform: translateY(0) rotate(-10deg);}
+  25% {transform: translateY(5px) rotate(0deg);}
+  50% {transform: translateY(10px) rotate(10deg);}
+  75% {transform: translateY(5px) rotate(0deg);}
+  100% {transform: translateY(0) rotate(-10deg);}
+}
+
+@keyframes floatReverse {
+  0% {transform: translateY(0) rotate(10deg);}
+  25% {transform: translateY(5px) rotate(0deg);}
+  50% {transform: translateY(10px) rotate(-10deg);}
+  75% {transform: translateY(5px) rotate(0deg);}
+  100% {transform: translateY(0) rotate(10deg);}
+}

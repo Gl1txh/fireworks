@@ -93,7 +93,7 @@ document.addEventListener("keyup", onKeyDown);
 function Particle(x, y, velocity, color, firework) {
 	this.position = new vec2(x, y);
 	this.lifespan = 100;
-	this.radius = (firework) ? 3 : 1;
+	this.radius = (firework) ? 4 : 2;
 	if(firework) {
 		var temp = new vec2();
 		this.velocity = new vec2();
