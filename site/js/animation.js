@@ -20,7 +20,20 @@
   var cloud1 = document.querySelector('#cloud-1');
   var cloud2 = document.querySelector('#cloud-2');
 
-  var tl = new TimelineLite();
+  var tl = new TimelineLite({
+    onComplete: setupGradient
+  });
+
+  function setupGradient() {
+    var gradient = document.querySelector('.gradient');
+    var elevatorShaft = document.querySelector('#elevator-shaft');
+
+    gradient.style.opacity = 0.7;
+    gradient.style.top = (elevatorShaft.getBoundingClientRect().top + 1) + 'px';
+    gradient.style.left = elevatorShaft.getBoundingClientRect().left + 'px';
+    gradient.style.width = elevatorShaft.getBoundingClientRect().width + 'px';
+    gradient.style.height = (elevatorShaft.getBoundingClientRect().height - 1) + 'px';
+  }
 
   tl.to(svg, 0, {opacity: 1});
   tl.to(outline, 1.5, {strokeDashoffset: 0, ease: Power2.easeOut}, 'water');
@@ -44,7 +57,15 @@
   tl.from(boat1, 0.8, {opacity: 0, ease: Power2.easeOut}, 'buildings+=0.2');
   tl.from(boat2, 0.8, {opacity: 0, ease: Power2.easeOut}, 'buildings+=0.4');
 
-  tl.from(cloud1, 0.6, {x: -60, opacity: 0, ease: Power2.easeOut}, '-=0.5');
-  tl.from(cloud2, 0.6, {x: 60, opacity: 0, ease: Power2.easeOut}, '-=0.8');
+  tl.from(cloud1, 0.6, {opacity: 0, ease: Power2.easeOut}, '-=0.5');
+  tl.from(cloud2, 0.6, {opacity: 0, ease: Power2.easeOut}, '-=0.8');
+
+  // -------------
+  // Window resize
+  // -------------
+
+  window.addEventListener('resize', function() {
+    setupGradient();
+  });
 
 })();

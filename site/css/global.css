@@ -100,6 +100,13 @@ svg {
   animation-duration: 6s;
 }
 
+@-moz-document url-prefix() {
+  #boat-1,
+  #boat-2 {
+    display: none;
+  }
+}
+
 @keyframes float {
   0% {transform: translateY(0) rotate(-10deg);}
   25% {transform: translateY(5px) rotate(0deg);}
@@ -151,4 +158,30 @@ svg {
   0% {transform: translateX(40px)}
   50% {transform: translateX(0)}
   100% {transform: translateX(40px)}
+}
+
+.gradient {
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 0;
+  height: 0;
+  background: linear-gradient(180deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 2s;
+  animation: AnimationName 5s ease infinite;
+}
+
+@-moz-document url-prefix() {
+  .gradient {
+    display: none;
+  }
+}
+
+@keyframes AnimationName {
+  0%{background-position:49% 0%}
+  50%{background-position:52% 100%}
+  100%{background-position:49% 0%}
 }
