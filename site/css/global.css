@@ -115,3 +115,40 @@ svg {
   75% {transform: translateY(5px) rotate(0deg);}
   100% {transform: translateY(0) rotate(10deg);}
 }
+
+svg {
+  opacity: 0;
+}
+
+#outline {
+  stroke-dasharray: 1572;
+  stroke-dashoffset: 1572;
+}
+
+#city-line {
+  stroke-dasharray: 495;
+  stroke-dashoffset: 495;
+}
+
+#cloud-1,
+#cloud-2 {
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform-origin: 50% 50%;
+}
+
+#cloud-1 {
+  animation-name: clouds;
+  animation-duration: 14s;
+}
+
+#cloud-2 {
+  animation-name: clouds;
+  animation-duration: 20s;
+}
+
+@keyframes clouds {
+  0% {transform: translateX(40px)}
+  50% {transform: translateX(0)}
+  100% {transform: translateX(40px)}
+}
